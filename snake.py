@@ -12,10 +12,7 @@ class Snake:
     def __init__(self):
         self.snake_body = []
         for length in range(0, 3):
-            if len(self.snake_body) == 0:
-                self.snake_body.append(self.get_part())
-            else:
-                self.snake_body.append(self.get_part())
+            self.snake_body.append(self.get_part())
         self.head = self.snake_body[0]
 
     def get_part(self):
@@ -27,6 +24,14 @@ class Snake:
             a_part_of_body.goto(x=self.snake_body[0].xcor() - (len(self.snake_body) * 20), y=self.snake_body[0].ycor())
 
         return a_part_of_body
+
+    def reset(self):
+        for seg in self.snake_body:
+            seg.goto(1000, 1000)
+        self.snake_body.clear()
+        for length in range(0, 3):
+            self.snake_body.append(self.get_part())
+        self.head = self.snake_body[0]
 
     def move(self):
         for seg_num in range(len(self.snake_body) - 1, 0, -1):

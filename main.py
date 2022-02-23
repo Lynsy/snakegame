@@ -7,6 +7,12 @@ from scoreboard import Scoreboard
 game_on = True
 COLLISION_DISTANCE_WALL = 300
 EDGE = 20
+saved_high_score = 0
+
+
+def get_high_score():
+    with open("score.txt") as file:
+        return int(file.read())
 
 
 def reset_game():
@@ -27,7 +33,7 @@ screen.tracer(0)
 
 snake = Snake()
 food = Food()
-scoreboard = Scoreboard()
+scoreboard = Scoreboard(high_score=get_high_score())
 
 screen.listen()
 screen.onkey(snake.up, "Up")
@@ -49,11 +55,13 @@ while game_on:
     if snake.head.xcor() > COLLISION_DISTANCE_WALL or snake.head.xcor() < (-1 * (COLLISION_DISTANCE_WALL + EDGE)) or \
             snake.head.ycor() > (COLLISION_DISTANCE_WALL + EDGE) or snake.head.ycor() < (
             -1 * COLLISION_DISTANCE_WALL):
-        game_on = False
-        scoreboard.game_over()
+        # game_on = False
+        scoreboard.reset()
+        snake.reset()
 
     if snake.collides_with_tail():
-        game_on = False
-        scoreboard.game_over()
+        # game_on = False
+        scoreboard.reset()
+        snake.reset()
 
 screen.exitonclick()
